@@ -120,7 +120,23 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
-        return null;
+
+        // TODO: Check that contact exists
+        List<Meeting> futureMeetings = new ArrayList<Meeting>();
+
+        for(Map.Entry<Integer, Meeting> meetingEntry: this.meetings.entrySet()){
+            Meeting meeting = meetingEntry.getValue();
+
+            Set<Contact> meetingContacts = meeting.getContacts();
+
+            if (meetingContacts.contains(contact)) {
+                if (!dateIsInTheFuture(meeting.getDate())) {
+                    futureMeetings.add(meeting);
+                }
+            }
+        }
+
+        return futureMeetings;
     }
 
     /**
@@ -137,6 +153,19 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
+
+        // TODO: Add sorting
+        List<Meeting> meetingsOnADate = new ArrayList<Meeting>();
+
+        for(Map.Entry<Integer, Meeting> meetingEntry: this.meetings.entrySet()){
+            Meeting meeting = meetingEntry.getValue();
+
+            if (date.compareTo(meeting.getDate()) == 0) {
+                meetingsOnADate.add(meeting);
+            }
+        }
+
+        return meetingsOnADate;
     }
 
     /**
