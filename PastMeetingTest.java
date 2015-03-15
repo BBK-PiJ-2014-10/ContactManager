@@ -55,11 +55,17 @@ public class PastMeetingTest {
 
     @Test
     public void testSetContacts() throws Exception {
-
+        testContacts.add(new ContactImpl("test name 2", ""));
+        testMeeting.setContacts(testContacts);
+        assertEquals(testContacts, testMeeting.getContacts());
     }
 
     @Test
     public void testAddContact() throws Exception {
+        Contact thirdContact = new ContactImpl("test name 3", "");
+        testMeeting.addContact(thirdContact);
+        testContacts.add(thirdContact);
+        assertEquals(testContacts, testMeeting.getContacts());
 
     }
 }
