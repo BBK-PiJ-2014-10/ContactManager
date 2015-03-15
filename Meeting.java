@@ -30,4 +30,11 @@ public interface Meeting {
      * @return the details of people that attended the meeting.
      */
     Set<Contact> getContacts();
+
+    /**
+     * Add notes about the meeting.
+     *
+     * @param note the notes to be added
+     */
+    void addNotes(String note);
 }
