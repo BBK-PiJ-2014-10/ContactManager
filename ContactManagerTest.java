@@ -50,32 +50,52 @@ public class ContactManagerTest {
 
     @Test
     public void testGetFutureMeeting() {
+        Calendar futureDate = Calendar.getInstance();
+        futureDate.add(Calendar.DAY_OF_YEAR, 2);
+        int id = contactManager.addFutureMeeting(testContacts, futureDate);
+        FutureMeeting futureMeeting = contactManager.getFutureMeeting(id);
+        assertEquals(id, futureMeeting.getId());
 
     }
 
     @Test
     public void testGetMeeting() {
-
+        Calendar date = Calendar.getInstance();
+        int id = contactManager.addFutureMeeting(testContacts, date);
+        Meeting meeting = contactManager.getMeeting(id);
+        assertEquals(id, meeting.getId());
     }
 
     @Test
     public void testGetFutureMeetingList() {
+        Calendar futureDate = Calendar.getInstance();
+        futureDate.add(Calendar.DAY_OF_YEAR, 1);
+        int futureMeetingsNumberBefore = contactManager.getFutureMeetingList(this.testContact).size();
+        contactManager.addNewPastMeeting(testContacts, futureDate, testNotes);
+        int futureMeetingsNumberAfter = contactManager.getFutureMeetingList(this.testContact).size();
 
+        assertTrue((futureMeetingsNumberBefore + 1) == futureMeetingsNumberAfter);
     }
 
     @Test
-    public void testGetFutureMeetingList1() {
+    public void testGetFutureMeetingListWithDate() {
+        Calendar futureDate = Calendar.getInstance();
+        futureDate.add(Calendar.DAY_OF_YEAR, 1);
+        int futureMeetingsNumberBefore = contactManager.getFutureMeetingList(futureDate).size();
+        contactManager.addNewPastMeeting(testContacts, futureDate, testNotes);
+        int futureMeetingsNumberAfter = contactManager.getFutureMeetingList(futureDate).size();
+
+        assertTrue((futureMeetingsNumberBefore + 1) == futureMeetingsNumberAfter);
 
     }
 
     @Test
     public void testGetPastMeetingList() {
-        ContactManager testContactManager = new ContactManagerImpl();
         Calendar pastDate = Calendar.getInstance();
         pastDate.add(Calendar.DAY_OF_YEAR, -1);
-        int pastMeetingsNumberBefore = testContactManager.getPastMeetingList(this.testContact).size();
-        testContactManager.addNewPastMeeting(testContacts, pastDate, testNotes);
-        int pastMeetingsNumberAfter = testContactManager.getPastMeetingList(this.testContact).size();
+        int pastMeetingsNumberBefore = contactManager.getPastMeetingList(this.testContact).size();
+        contactManager.addNewPastMeeting(testContacts, pastDate, testNotes);
+        int pastMeetingsNumberAfter = contactManager.getPastMeetingList(this.testContact).size();
 
         assertTrue((pastMeetingsNumberBefore + 1) == pastMeetingsNumberAfter);
     }
