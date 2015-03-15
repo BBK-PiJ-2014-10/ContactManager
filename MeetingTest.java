@@ -3,17 +3,19 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Set;
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
 public class MeetingTest {
 
-    private Calendar testDate;
     private Meeting testMeeting;
-    private Set<Contact> testContacts;
+    private Calendar testDate = Calendar.getInstance();
+    private Set<Contact> testContacts = new HashSet<Contact>();
 
     @Before
     public void setUp() {
+        testContacts.add(new ContactImpl("test name", ""));
         testMeeting = new MeetingImpl(testContacts, testDate);
     }
 
