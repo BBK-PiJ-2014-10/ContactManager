@@ -1,0 +1,65 @@
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.*;
+
+
+public class FutureMeetingTest {
+
+    private Meeting testMeeting;
+    private Calendar testDate = Calendar.getInstance();
+    private Set<Contact> testContacts = new HashSet<Contact>();
+    private String testNotes = "test notes";
+
+    @Before
+    public void setUp() {
+        testContacts.add(new ContactImpl("test name", ""));
+        testMeeting = new FutureMeetingImpl();
+        testMeeting.setContacts(testContacts);
+        testMeeting.setDate(testDate);
+        testMeeting.addNotes(testNotes);
+    }
+
+    @Test
+    public void testGetId() {
+        assertEquals(2, testMeeting.getId());
+    }
+
+    @Test
+    public void testGetDate() {
+        assertEquals(testDate, testMeeting.getDate());
+    }
+
+    @Test
+    public void testSetDate() {
+        Calendar futureDate = Calendar.getInstance();
+        futureDate.add(Calendar.DAY_OF_YEAR, 1);
+        testMeeting.setDate(futureDate);
+        assertEquals(futureDate, testMeeting.getDate());
+    }
+
+    @Test
+    public void testGetContacts() {
+        assertEquals(testContacts, testMeeting.getContacts());
+    }
+
+    @Test
+    public void testGetNotes() {
+        assertEquals(testNotes, testMeeting.getNotes());
+    }
+
+
+    @Test
+    public void testSetContacts() throws Exception {
+
+    }
+
+    @Test
+    public void testAddContact() throws Exception {
+
+    }
+}
