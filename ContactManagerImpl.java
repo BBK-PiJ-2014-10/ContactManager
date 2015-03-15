@@ -6,7 +6,16 @@ import java.util.Set;
 public class ContactManagerImpl implements ContactManager {
 
     private HashMap<Integer, Meeting> meetings = new HashMap();
-    private HashMap<Integer, FutureMeeting> futureMeetings = new HashMap();
+
+
+    private boolean dateIsInTheFuture(Calendar date) {
+        Calendar currentDate = Calendar.getInstance();
+        if (currentDate.compareTo(date) <= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Add a new meeting to be held in the future.
@@ -21,10 +30,15 @@ public class ContactManagerImpl implements ContactManager {
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
         FutureMeeting futureMeeting = new FutureMeetingImpl();
         futureMeeting.setContacts(contacts);
-        futureMeeting.setDate(date);
+
+        if (dateIsInTheFuture(date)) {
+            futureMeeting.setDate(date);
+        } else {
+            throw new IllegalArgumentException("Past date was provided.");
+        }
 
         int futureMeetingId = futureMeeting.getId();
-        this.futureMeetings.put(futureMeetingId, futureMeeting);
+        this.meetings.put(futureMeetingId, futureMeeting);
 
         return futureMeetingId;
     }
@@ -38,7 +52,18 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public PastMeeting getPastMeeting(int id) {
-        return null;
+        Meeting meeting = meetings.get(id);
+
+        if (meeting == null) {
+            return null;
+        } else {
+            if (!dateIsInTheFuture(meeting.getDate())) {
+                return (PastMeeting)meeting;
+            } else {
+                throw new IllegalArgumentException("There is a meeting with that ID happening in the future.");
+            }
+
+        }
     }
 
     /**
@@ -50,7 +75,18 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public FutureMeeting getFutureMeeting(int id) {
-        return futureMeetings.get(id);
+        Meeting meeting = meetings.get(id);
+
+        if (meeting == null) {
+            return null;
+        } else {
+            if (dateIsInTheFuture(meeting.getDate())) {
+                return (FutureMeeting)meeting;
+            } else {
+                throw new IllegalArgumentException("There is a meeting with that ID happening in the past.");
+            }
+
+        }
     }
 
     /**
@@ -124,15 +160,14 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-
     }
 
     /**
      * Add notes to a meeting.
-     * <p/>
+     *
      * This method is used when a future meeting takes place, and is
      * then converted to a past meeting (with notes).
-     * <p/>
+     *
      * It can be also used to add notes to a past meeting at a later date.
      *
      * @param id   the ID of the meeting
