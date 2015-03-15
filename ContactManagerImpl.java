@@ -1,13 +1,16 @@
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 
 public class ContactManagerImpl implements ContactManager {
 
     private HashMap<Integer, Meeting> meetings = new HashMap();
 
-
+    /**
+     * Check if date is in the future.
+     *
+     * @param date date to check.
+     * @return true if date is in the future.
+     */
     private boolean dateIsInTheFuture(Calendar date) {
         Calendar currentDate = Calendar.getInstance();
         if (currentDate.compareTo(date) <= 0) {
@@ -24,23 +27,27 @@ public class ContactManagerImpl implements ContactManager {
      * @param date     the date on which the meeting will take place
      * @return the ID for the meeting
      * @throws IllegalArgumentException if the meeting is set for a time in the past,
-     *                                  of if any contact is unknown / non-existent
+     * of if any contact is unknown / non-existent
+     * @throws NullPointerException if any of the arguments is null
      */
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        FutureMeeting futureMeeting = new FutureMeetingImpl();
-        futureMeeting.setContacts(contacts);
+        if ((contacts == null) || (date == null)) {
+            throw new NullPointerException("Null argument provided.");
+        }
 
         if (dateIsInTheFuture(date)) {
+            FutureMeeting futureMeeting = new FutureMeetingImpl();
             futureMeeting.setDate(date);
+            futureMeeting.setContacts(contacts);
+
+            int futureMeetingId = futureMeeting.getId();
+            this.meetings.put(futureMeetingId, futureMeeting);
+
+            return futureMeetingId;
         } else {
             throw new IllegalArgumentException("Past date was provided.");
         }
-
-        int futureMeetingId = futureMeeting.getId();
-        this.meetings.put(futureMeetingId, futureMeeting);
-
-        return futureMeetingId;
     }
 
     /**
@@ -118,9 +125,10 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * Returns the list of meetings that are scheduled for, or that took
-     * place on, the specified date
-     * <p/>
-     * If there are none, the returned list will be empty. Other    wise,
+     * place on, the specified date. Could use a better name, but it
+     * implements an interface.
+     *
+     * If there are none, the returned list will be empty. Otherwise,
      * the list will be chronologically sorted and will not contain any
      * duplicates.
      *
@@ -129,12 +137,11 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
-        return null;
     }
 
     /**
      * Returns the list of past meetings in which this contact has participated.
-     * <p/>
+     *
      * If there are none, the returned list will be empty. Otherwise,
      * the list will be chronologically sorted and will not contain any
      * duplicates.
@@ -145,7 +152,23 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
-        return null;
+
+        // TODO: Check that contact exists
+        List<PastMeeting> pastMeetings = new ArrayList<PastMeeting>();
+
+        for(Map.Entry<Integer, Meeting> meetingEntry: this.meetings.entrySet()){
+            Meeting meeting = meetingEntry.getValue();
+
+            Set<Contact> meetingContacts = meeting.getContacts();
+
+            if (meetingContacts.contains(contact)) {
+                if (!dateIsInTheFuture(meeting.getDate())) {
+                    pastMeetings.add((PastMeeting)meeting);
+                }
+            }
+         }
+
+        return pastMeetings;
     }
 
     /**
@@ -153,13 +176,27 @@ public class ContactManagerImpl implements ContactManager {
      *
      * @param contacts a list of participants
      * @param date     the date on which the meeting took place
-     * @param text     messages to be added about the meeting.
+     * @param text     notes to be added about the meeting.
      * @throws IllegalArgumentException if the list of contacts is
      *                                  empty, or any of the contacts does not exist
      * @throws NullPointerException     if any of the arguments is null
      */
     @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+        if ((contacts == null) || (date == null || (text == null))) {
+            throw new NullPointerException("Null argument provided.");
+        }
+
+        if (!dateIsInTheFuture(date)) {
+            PastMeeting pastMeeting = new PastMeetingImpl();
+            pastMeeting.setDate(date);
+            pastMeeting.setContacts(contacts);
+            pastMeeting.addNotes(text);
+            this.meetings.put(pastMeeting.getId(), pastMeeting);
+
+        } else {
+            throw new IllegalArgumentException("Future date was provided.");
+        }
     }
 
     /**
