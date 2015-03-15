@@ -6,6 +6,7 @@ public class MeetingImpl implements Meeting {
     private int id;
     private Calendar date;
     private Set<Contact> contacts;
+    private String notes;
 
     public MeetingImpl(Set<Contact> contactsToSet, Calendar dateToSet) {
         this.count ++;
@@ -45,5 +46,29 @@ public class MeetingImpl implements Meeting {
     @Override
     public Set<Contact> getContacts() {
         return this.contacts;
+    }
+
+    /**
+     * Returns our notes about the meeting, if any.
+     *
+     * If we have not written anything about the meeting, the empty
+     * string is returned.
+     *
+     * @return a string with notes about the meeting, maybe empty.
+     */
+    @Override
+    public String getNotes() {
+        return this.notes;
+    }
+
+    /**
+     * Add notes about the meeting.
+     *
+     * @param note the notes to be added
+     */
+    @Override
+    public void addNotes(String note) {
+        this.notes = note;
+
     }
 }
