@@ -17,18 +17,28 @@ public class MeetingTest {
     @Before
     public void setUp() {
         testContacts.add(new ContactImpl("test name", ""));
-        testMeeting = new MeetingImpl(testContacts, testDate);
+        testMeeting = new MeetingImpl();
+        testMeeting.setContacts(testContacts);
+        testMeeting.setDate(testDate);
         testMeeting.addNotes(testNotes);
     }
 
     @Test
     public void testGetId() {
-        assertEquals(2, testMeeting.getId());
+        assertEquals(9, testMeeting.getId());
     }
 
     @Test
     public void testGetDate() {
         assertEquals(testDate, testMeeting.getDate());
+    }
+
+    @Test
+    public void testSetDate() {
+        Calendar futureDate = Calendar.getInstance();
+        futureDate.add(Calendar.DAY_OF_YEAR, 1);
+        testMeeting.setDate(futureDate);
+        assertEquals(futureDate, testMeeting.getDate());
     }
 
     @Test
@@ -41,4 +51,20 @@ public class MeetingTest {
         assertEquals(testNotes, testMeeting.getNotes());
     }
 
+
+    @Test
+    public void testSetContacts() throws Exception {
+        testContacts.add(new ContactImpl("test name 2", ""));
+        testMeeting.setContacts(testContacts);
+        assertEquals(testContacts, testMeeting.getContacts());
+    }
+
+    @Test
+    public void testAddContact() throws Exception {
+        Contact thirdContact = new ContactImpl("test name 3", "");
+        testMeeting.addContact(thirdContact);
+        testContacts.add(thirdContact);
+        assertEquals(testContacts, testMeeting.getContacts());
+
+    }
 }
