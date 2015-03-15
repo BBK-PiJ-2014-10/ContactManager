@@ -8,6 +8,13 @@ public class MeetingImpl implements Meeting {
     private Set<Contact> contacts;
     private String notes;
 
+    public MeetingImpl() {
+        this.count ++;
+        this.id = this.count;
+        this.contacts = null;
+        this.date = null;
+    }
+
     public MeetingImpl(Set<Contact> contactsToSet, Calendar dateToSet) {
         this.count ++;
         this.id = this.count;
