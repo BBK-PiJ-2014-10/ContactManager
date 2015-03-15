@@ -9,18 +9,13 @@ public class MeetingImpl implements Meeting {
     private String notes;
 
     public MeetingImpl() {
-        this.count ++;
-        this.id = this.count;
-        this.contacts = null;
+        count ++;
+        this.id = count;
         this.date = null;
+        this.contacts = null;
+        this.notes = null;
     }
 
-    public MeetingImpl(Set<Contact> contactsToSet, Calendar dateToSet) {
-        this.count ++;
-        this.id = this.count;
-        this.contacts = contactsToSet;
-        this.date = dateToSet;
-    }
     /**
      * Returns the id of the meeting.
      *
@@ -42,6 +37,17 @@ public class MeetingImpl implements Meeting {
     }
 
     /**
+     * Sets the date of the meeting.
+     *
+     * @param date the date of the meeting.
+     */
+    @Override
+    public void setDate(Calendar date) {
+        this.date = date;
+
+    }
+
+    /**
      * Return the details of people that attended the meeting.
      *
      * The list contains a minimum of one contact (if there were
@@ -53,6 +59,27 @@ public class MeetingImpl implements Meeting {
     @Override
     public Set<Contact> getContacts() {
         return this.contacts;
+    }
+
+    /**
+     * Adds the set of contacts to the meeting.
+     *
+     * @param contacts set of contacts to add to the meeting.
+     */
+    @Override
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+
+    }
+
+    /**
+     * Adds the contact to the meeting.
+     *
+     * @param contact the contact to add to the meeting.
+     */
+    @Override
+    public void addContact(Contact contact) {
+        this.contacts.add(contact);
     }
 
     /**
