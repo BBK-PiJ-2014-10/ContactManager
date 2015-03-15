@@ -2,12 +2,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class MeetingTest {
+
+public class PastMeetingTest {
 
     private Meeting testMeeting;
     private Calendar testDate = Calendar.getInstance();
@@ -17,7 +18,7 @@ public class MeetingTest {
     @Before
     public void setUp() {
         testContacts.add(new ContactImpl("test name", ""));
-        testMeeting = new MeetingImpl();
+        testMeeting = new PastMeetingImpl();
         testMeeting.setContacts(testContacts);
         testMeeting.setDate(testDate);
         testMeeting.addNotes(testNotes);
@@ -25,7 +26,7 @@ public class MeetingTest {
 
     @Test
     public void testGetId() {
-        assertEquals(16, testMeeting.getId());
+        assertEquals(9, testMeeting.getId());
     }
 
     @Test
@@ -54,17 +55,11 @@ public class MeetingTest {
 
     @Test
     public void testSetContacts() throws Exception {
-        testContacts.add(new ContactImpl("test name 2", ""));
-        testMeeting.setContacts(testContacts);
-        assertEquals(testContacts, testMeeting.getContacts());
+
     }
 
     @Test
     public void testAddContact() throws Exception {
-        Contact thirdContact = new ContactImpl("test name 3", "");
-        testMeeting.addContact(thirdContact);
-        testContacts.add(thirdContact);
-        assertEquals(testContacts, testMeeting.getContacts());
 
     }
 }
