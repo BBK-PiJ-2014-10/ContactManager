@@ -32,6 +32,16 @@ public interface Meeting {
     Set<Contact> getContacts();
 
     /**
+     * Returns our notes about the meeting, if any.
+     *
+     * If we have not written anything about the meeting, the empty
+     * string is returned.
+     *
+     * @return a string with notes about the meeting, maybe empty.
+     */
+    String getNotes();
+
+    /**
      * Add notes about the meeting.
      *
      * @param note the notes to be added

@@ -12,11 +12,13 @@ public class MeetingTest {
     private Meeting testMeeting;
     private Calendar testDate = Calendar.getInstance();
     private Set<Contact> testContacts = new HashSet<Contact>();
+    private String testNotes = "test notes";
 
     @Before
     public void setUp() {
         testContacts.add(new ContactImpl("test name", ""));
         testMeeting = new MeetingImpl(testContacts, testDate);
+        testMeeting.addNotes(testNotes);
     }
 
     @Test
@@ -33,4 +35,10 @@ public class MeetingTest {
     public void testGetContacts() {
         assertEquals(testContacts, testMeeting.getContacts());
     }
+
+    @Test
+    public void testGetNotes() {
+        assertEquals(testNotes, testMeeting.getNotes());
+    }
+
 }
