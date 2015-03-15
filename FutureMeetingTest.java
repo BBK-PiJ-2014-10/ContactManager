@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class FutureMeetingTest {
 
-    private Meeting testMeeting;
+    private Meeting testMeeting = new FutureMeetingImpl();
     private Calendar testDate = Calendar.getInstance();
     private Set<Contact> testContacts = new HashSet<Contact>();
     private String testNotes = "test notes";
@@ -18,7 +18,6 @@ public class FutureMeetingTest {
     @Before
     public void setUp() {
         testContacts.add(new ContactImpl("test name", ""));
-        testMeeting = new FutureMeetingImpl();
         testMeeting.setContacts(testContacts);
         testMeeting.setDate(testDate);
         testMeeting.addNotes(testNotes);
