@@ -18,7 +18,7 @@ public class ContactTest {
 
     @Test
     public void testGetId() {
-        assertEquals(2, contact.getId());
+        assertEquals(9, contact.getId());
     }
 
     @Test
