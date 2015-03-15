@@ -22,14 +22,36 @@ public interface Meeting {
     Calendar getDate();
 
     /**
+     * Sets the date of the meeting.
+     *
+     * @param date  the date of the meeting.
+     */
+    void setDate(Calendar date);
+
+    /**
      * Return the details of people that attended the meeting.
      *
      * The list contains a minimum of one contact (if there were
      * just two people: the user and the contact) and may contain an
-     * arbitraty number of them. *
+     * arbitrary number of them. *
      * @return the details of people that attended the meeting.
      */
     Set<Contact> getContacts();
+
+
+    /**
+     * Adds the set of contacts to the meeting.
+     *
+     * @param contacts set of contacts to add to the meeting.
+     */
+    void setContacts(Set<Contact> contacts);
+
+    /**
+     * Adds the contact to the meeting.
+     *
+     * @param contact the contact to add to the meeting.
+     */
+    void addContact(Contact contact);
 
     /**
      * Returns our notes about the meeting, if any.
