@@ -17,6 +17,11 @@ public class ContactTest {
     }
 
     @Test
+    public void testGetId() {
+        assertEquals(2, contact.getId());
+    }
+
+    @Test
     public void testsGetName() {
         assertEquals(testName, contact.getName());
     }
@@ -24,10 +29,5 @@ public class ContactTest {
     @Test
     public void testGetNotes() {
         assertEquals(testNotes, contact.getNotes());
-    }
-
-    @Test
-    public void testGetId() {
-        assertEquals(3, contact.getId());
     }
 }
