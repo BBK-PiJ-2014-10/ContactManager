@@ -71,7 +71,7 @@ public class ContactManagerTest {
         Calendar futureDate = Calendar.getInstance();
         futureDate.add(Calendar.DAY_OF_YEAR, 1);
         int futureMeetingsNumberBefore = contactManager.getFutureMeetingList(this.testContact).size();
-        contactManager.addNewPastMeeting(testContacts, futureDate, testNotes);
+        contactManager.addFutureMeeting(testContacts, futureDate);
         int futureMeetingsNumberAfter = contactManager.getFutureMeetingList(this.testContact).size();
 
         assertTrue((futureMeetingsNumberBefore + 1) == futureMeetingsNumberAfter);
@@ -82,7 +82,7 @@ public class ContactManagerTest {
         Calendar futureDate = Calendar.getInstance();
         futureDate.add(Calendar.DAY_OF_YEAR, 1);
         int futureMeetingsNumberBefore = contactManager.getFutureMeetingList(futureDate).size();
-        contactManager.addNewPastMeeting(testContacts, futureDate, testNotes);
+        contactManager.addFutureMeeting(testContacts, futureDate);
         int futureMeetingsNumberAfter = contactManager.getFutureMeetingList(futureDate).size();
 
         assertTrue((futureMeetingsNumberBefore + 1) == futureMeetingsNumberAfter);

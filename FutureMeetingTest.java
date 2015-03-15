@@ -25,7 +25,7 @@ public class FutureMeetingTest {
 
     @Test
     public void testGetId() {
-        assertEquals(2, testMeeting.getId());
+        assertEquals(16, testMeeting.getId());
     }
 
     @Test

@@ -24,7 +24,7 @@ public class MeetingTest {
 
     @Test
     public void testGetId() {
-        assertEquals(16, testMeeting.getId());
+        assertEquals(2, testMeeting.getId());
     }
 
     @Test

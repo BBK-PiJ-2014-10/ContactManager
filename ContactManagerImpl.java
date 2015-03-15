@@ -130,7 +130,7 @@ public class ContactManagerImpl implements ContactManager {
             Set<Contact> meetingContacts = meeting.getContacts();
 
             if (meetingContacts.contains(contact)) {
-                if (!dateIsInTheFuture(meeting.getDate())) {
+                if (dateIsInTheFuture(meeting.getDate())) {
                     futureMeetings.add(meeting);
                 }
             }
