@@ -38,7 +38,12 @@ public class ContactManagerTest {
 
     @Test
     public void testGetPastMeeting() {
-
+        Calendar pastDate = Calendar.getInstance();
+        pastDate.add(Calendar.DAY_OF_YEAR, -1);
+        int id = contactManager.addNewPastMeeting();
+        PastMeeting pastMeeting = contactManager.getPastMeeting(id);
+        assertEquals(pastDate, pastMeeting.getDate());
+        assertEquals(testContacts, pastMeeting.getContacts());
     }
 
     @Test
