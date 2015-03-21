@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class PastMeetingTest {
 
-    private Meeting testMeeting = new PastMeetingImpl();
+    private PastMeetingImpl testMeeting = new PastMeetingImpl();
     private Calendar testDate = Calendar.getInstance();
     private Set<Contact> testContacts = new HashSet<Contact>();
     private String testNotes = "test notes";
@@ -25,7 +25,7 @@ public class PastMeetingTest {
 
     @Test
     public void testGetId() {
-        assertEquals(9, testMeeting.getId());
+        assertEquals(22, testMeeting.getId());
     }
 
     @Test

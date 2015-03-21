@@ -66,7 +66,6 @@ public class MeetingImpl implements Meeting {
      *
      * @param contacts set of contacts to add to the meeting.
      */
-    @Override
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
 
@@ -77,7 +76,6 @@ public class MeetingImpl implements Meeting {
      *
      * @param contact the contact to add to the meeting.
      */
-    @Override
     public void addContact(Contact contact) {
         this.contacts.add(contact);
     }
@@ -90,7 +88,6 @@ public class MeetingImpl implements Meeting {
      *
      * @return a string with notes about the meeting, maybe empty.
      */
-    @Override
     public String getNotes() {
         return this.notes;
     }
@@ -100,7 +97,6 @@ public class MeetingImpl implements Meeting {
      *
      * @param note the notes to be added
      */
-    @Override
     public void addNotes(String note) {
         this.notes = note;
 

@@ -37,7 +37,7 @@ public class ContactManagerImpl implements ContactManager {
         }
 
         if (dateIsInTheFuture(date)) {
-            FutureMeeting futureMeeting = new FutureMeetingImpl();
+            FutureMeetingImpl futureMeeting = new FutureMeetingImpl();
             futureMeeting.setDate(date);
             futureMeeting.setContacts(contacts);
 
@@ -217,7 +217,7 @@ public class ContactManagerImpl implements ContactManager {
         }
 
         if (!dateIsInTheFuture(date)) {
-            PastMeeting pastMeeting = new PastMeetingImpl();
+            PastMeetingImpl pastMeeting = new PastMeetingImpl();
             pastMeeting.setDate(date);
             pastMeeting.setContacts(contacts);
             pastMeeting.addNotes(text);

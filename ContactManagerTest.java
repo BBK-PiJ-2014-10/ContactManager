@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class ContactManagerTest {
 
     private ContactManager contactManager = new ContactManagerImpl();
-    private Meeting testMeeting;
+    private MeetingImpl testMeeting;
     private Contact testContact = new ContactImpl("test name", "");
     private Calendar testDate = Calendar.getInstance();
     private Set<Contact> testContacts = new HashSet<Contact>();

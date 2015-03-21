@@ -37,36 +37,4 @@ public interface Meeting {
      * @return the details of people that attended the meeting.
      */
     Set<Contact> getContacts();
-
-
-    /**
-     * Adds the set of contacts to the meeting.
-     *
-     * @param contacts set of contacts to add to the meeting.
-     */
-    void setContacts(Set<Contact> contacts);
-
-    /**
-     * Adds the contact to the meeting.
-     *
-     * @param contact the contact to add to the meeting.
-     */
-    void addContact(Contact contact);
-
-    /**
-     * Returns our notes about the meeting, if any.
-     *
-     * If we have not written anything about the meeting, the empty
-     * string is returned.
-     *
-     * @return a string with notes about the meeting, maybe empty.
-     */
-    String getNotes();
-
-    /**
-     * Add notes about the meeting.
-     *
-     * @param note the notes to be added
-     */
-    void addNotes(String note);
 }
