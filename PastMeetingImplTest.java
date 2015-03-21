@@ -3,28 +3,36 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Set;
-import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
-public class MeetingTest {
 
-    private MeetingImpl testMeeting = new MeetingImpl();
+public class PastMeetingImplTest {
+
+    private ContactManager contactManager = new ContactManagerImpl();
+    private PastMeetingImpl testMeeting = new PastMeetingImpl();
+    private Contact testContact;
     private Calendar testDate = Calendar.getInstance();
-    private Set<Contact> testContacts = new HashSet<Contact>();
+    private Set<Contact> testContacts;
     private String testNotes = "test notes";
 
     @Before
     public void setUp() {
-        testContacts.add(new ContactImpl("test name", ""));
-        testMeeting.setContacts(testContacts);
+        contactManager.addNewContact("test name", "");
+        testContacts = contactManager.getContacts("test name");
+        for (Contact contact : testContacts) {
+            testContact = contact;
+            break;
+        }
+        testMeeting.addContact(testContact);
         testMeeting.setDate(testDate);
         testMeeting.addNotes(testNotes);
     }
 
+
     @Test
     public void testGetId() {
-        assertEquals(30, testMeeting.getId());
+        assertEquals(14, testMeeting.getId());
     }
 
     @Test
@@ -50,13 +58,6 @@ public class MeetingTest {
         assertEquals(testNotes, testMeeting.getNotes());
     }
 
-
-    @Test
-    public void testSetContacts() throws Exception {
-        testContacts.add(new ContactImpl("test name 2", ""));
-        testMeeting.setContacts(testContacts);
-        assertEquals(testContacts, testMeeting.getContacts());
-    }
 
     @Test
     public void testAddContact() throws Exception {

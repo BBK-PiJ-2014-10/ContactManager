@@ -14,18 +14,22 @@ public class ContactManagerTest {
 
     private ContactManager contactManager = new ContactManagerImpl();
     private MeetingImpl testMeeting;
-    private Contact testContact = new ContactImpl("test name", "");
+    private Contact testContact;
     private Calendar testDate = Calendar.getInstance();
-    private Set<Contact> testContacts = new HashSet<Contact>();
+    private Set<Contact> testContacts;
     private String testNotes = "test notes";
 
     @Before
     public void setUp() {
-        testContacts.add(testContact);
+        contactManager.addNewContact("test name", "");
+        testContacts = contactManager.getContacts("test name");
+        for (Contact contact : testContacts) {
+            testContact = contact;
+            break;
+        }
         testMeeting = new MeetingImpl();
-        testMeeting.setContacts(testContacts);
+        testMeeting.addContact(testContact);
         testMeeting.setDate(testDate);
-        testMeeting.addNotes(testNotes);
     }
 
     @Test
@@ -62,6 +66,7 @@ public class ContactManagerTest {
     @Test
     public void testGetMeeting() {
         Calendar date = Calendar.getInstance();
+        date.add(Calendar.DAY_OF_YEAR, 2);
         int id = contactManager.addFutureMeeting(testContacts, date);
         Meeting meeting = contactManager.getMeeting(id);
         assertEquals(id, meeting.getId());
@@ -190,5 +195,51 @@ public class ContactManagerTest {
         }
         assertNotEquals(null, contactsWithId);
         assertEquals(contactWithName, contactWithId);
+    }
+
+    @Test
+    public void testFlush() {
+        ContactManager flushedContactManager = new ContactManagerImpl();
+        flushedContactManager.addNewContact("test name", "");
+        testContacts = flushedContactManager.getContacts("test name");
+        Contact flushedContact = null;
+        for (Contact contact : testContacts) {
+            flushedContact = contact;
+            break;
+        }
+
+        Calendar futureDate = Calendar.getInstance();
+        futureDate.add(Calendar.DAY_OF_YEAR, 1);
+        flushedContactManager.addFutureMeeting(testContacts, futureDate);
+
+        Calendar pastDate = Calendar.getInstance();
+        pastDate.add(Calendar.DAY_OF_YEAR, -1);
+        flushedContactManager.addNewPastMeeting(testContacts, pastDate, "test notes");
+
+        flushedContactManager.flush();
+
+        ContactManagerImpl loadedContactManager = new ContactManagerImpl();
+        loadedContactManager.loadData();
+
+        Set<Contact> loadedContacts = loadedContactManager.getContacts(flushedContact.getName());
+
+        Contact loadedContact = null;
+        for (Contact contact : loadedContacts) {
+            loadedContact = contact;
+            break;
+        }
+
+        assertEquals(flushedContact.getId(), loadedContact.getId());
+
+
+        List<Meeting> flushedFutureMeetings = flushedContactManager.getFutureMeetingList(futureDate);
+        List<Meeting> loadedFutureMeetings = loadedContactManager.getFutureMeetingList(futureDate);
+
+        assertEquals(flushedFutureMeetings.get(0).getId(), loadedFutureMeetings.get(0).getId());
+
+        List<PastMeeting> flushedPastMeetings = flushedContactManager.getPastMeetingList(flushedContact);
+        List<PastMeeting> loadedPastMeetings = loadedContactManager.getPastMeetingList(loadedContact);
+
+        assertEquals(flushedPastMeetings.get(0).getId(), loadedPastMeetings.get(0).getId());
     }
 }

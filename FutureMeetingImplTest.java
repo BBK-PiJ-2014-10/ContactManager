@@ -8,24 +8,25 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 
-public class FutureMeetingTest {
+public class FutureMeetingImplTest {
 
     private FutureMeetingImpl testMeeting = new FutureMeetingImpl();
     private Calendar testDate = Calendar.getInstance();
+    private Contact testContact = new ContactImpl("test name", "");
     private Set<Contact> testContacts = new HashSet<Contact>();
     private String testNotes = "test notes";
 
     @Before
     public void setUp() {
-        testContacts.add(new ContactImpl("test name", ""));
-        testMeeting.setContacts(testContacts);
+        testContacts.add(testContact);
+        testMeeting.addContact(testContact);
         testMeeting.setDate(testDate);
         testMeeting.addNotes(testNotes);
     }
 
     @Test
     public void testGetId() {
-        assertEquals(37, testMeeting.getId());
+        assertEquals(8, testMeeting.getId());
     }
 
     @Test
@@ -49,14 +50,6 @@ public class FutureMeetingTest {
     @Test
     public void testGetNotes() {
         assertEquals(testNotes, testMeeting.getNotes());
-    }
-
-
-    @Test
-    public void testSetContacts() throws Exception {
-        testContacts.add(new ContactImpl("test name 2", ""));
-        testMeeting.setContacts(testContacts);
-        assertEquals(testContacts, testMeeting.getContacts());
     }
 
     @Test
