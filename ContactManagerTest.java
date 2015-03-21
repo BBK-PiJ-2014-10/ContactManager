@@ -73,14 +73,31 @@ public class ContactManagerTest {
     }
 
     @Test
-    public void testGetFutureMeetingList() {
+    public void testGetFutureMeetingListWithContact() {
+        ContactManager contactManagerFuture = new ContactManagerImpl();
+
+        contactManagerFuture.addNewContact("test name", "");
+        testContacts = contactManagerFuture.getContacts("test name");
+        Contact testContactFuture = null;
+        for (Contact contact : testContacts) {
+            testContactFuture = contact;
+            break;
+        }
+
         Calendar futureDate = Calendar.getInstance();
-        futureDate.add(Calendar.DAY_OF_YEAR, 1);
-        int futureMeetingsNumberBefore = contactManager.getFutureMeetingList(this.testContact).size();
-        contactManager.addFutureMeeting(testContacts, futureDate);
-        int futureMeetingsNumberAfter = contactManager.getFutureMeetingList(this.testContact).size();
+        futureDate.add(Calendar.DATE, 1);
+        int futureMeetingsNumberBefore = contactManagerFuture.getFutureMeetingList(testContactFuture).size();
+        contactManagerFuture.addFutureMeeting(testContacts, futureDate);
+        int futureMeetingsNumberAfter = contactManagerFuture.getFutureMeetingList(testContactFuture).size();
 
         assertTrue((futureMeetingsNumberBefore + 1) == futureMeetingsNumberAfter);
+
+        Calendar futureFutureDate = Calendar.getInstance();
+        futureFutureDate.add(Calendar.DATE, 2);
+        contactManagerFuture.addFutureMeeting(testContacts, futureFutureDate);
+        List<Meeting> futureMeetings = contactManagerFuture.getFutureMeetingList(testContactFuture);
+
+        assertEquals(-1, futureMeetings.get(0).getDate().compareTo(futureMeetings.get(1).getDate()));
     }
 
     @Test
@@ -104,6 +121,13 @@ public class ContactManagerTest {
         int pastMeetingsNumberAfter = contactManager.getPastMeetingList(this.testContact).size();
 
         assertTrue((pastMeetingsNumberBefore + 1) == pastMeetingsNumberAfter);
+
+        Calendar pastPastDate = Calendar.getInstance();
+        pastPastDate.add(Calendar.DATE, -2);
+        contactManager.addNewPastMeeting(testContacts, pastPastDate, testNotes);
+        List<PastMeeting> pastMeetings = contactManager.getPastMeetingList(this.testContact);
+
+        assertEquals(-1, pastMeetings.get(0).getDate().compareTo(pastMeetings.get(1).getDate()));
     }
 
     @Test
