@@ -129,7 +129,10 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
 
-        // TODO: Check that contact exists
+        if (this.contacts.get(contact.getId()) == null) {
+            throw new IllegalArgumentException("Contact is unknown or non-existent.");
+        }
+
         List<Meeting> futureMeetings = new ArrayList<Meeting>();
 
         for(Map.Entry<Integer, MeetingImpl> meetingEntry: this.meetings.entrySet()){
@@ -142,6 +145,14 @@ public class ContactManagerImpl implements ContactManager {
                     futureMeetings.add(meeting);
                 }
             }
+        }
+
+        if (futureMeetings.size() > 0) {
+            Collections.sort(futureMeetings, new Comparator<Meeting>() {
+                public int compare(Meeting meeting1, Meeting meeting2) {
+                    return meeting1.getDate().compareTo(meeting2.getDate());
+                }
+            });
         }
 
         return futureMeetings;
@@ -162,7 +173,6 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
 
-        // TODO: Add sorting
         List<Meeting> meetingsOnADate = new ArrayList<Meeting>();
 
         for(Map.Entry<Integer, MeetingImpl> meetingEntry: this.meetings.entrySet()){
@@ -171,6 +181,14 @@ public class ContactManagerImpl implements ContactManager {
             if (date.compareTo(meeting.getDate()) == 0) {
                 meetingsOnADate.add(meeting);
             }
+        }
+
+        if (meetingsOnADate.size() > 0) {
+            Collections.sort(meetingsOnADate, new Comparator<Meeting>() {
+                public int compare(Meeting meeting1, Meeting meeting2) {
+                    return meeting1.getDate().compareTo(meeting2.getDate());
+                }
+            });
         }
 
         return meetingsOnADate;
@@ -207,6 +225,14 @@ public class ContactManagerImpl implements ContactManager {
                 }
             }
          }
+
+        if (pastMeetings.size() > 0) {
+            Collections.sort(pastMeetings, new Comparator<PastMeeting>() {
+                public int compare(PastMeeting meeting1, PastMeeting meeting2) {
+                    return meeting1.getDate().compareTo(meeting2.getDate());
+                }
+            });
+        }
 
         return pastMeetings;
     }

@@ -43,7 +43,6 @@ public class MeetingImpl implements Meeting, Serializable {
      *
      * @param date the date of the meeting.
      */
-    @Override
     public void setDate(Calendar date) {
         this.date = date;
 

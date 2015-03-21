@@ -22,13 +22,6 @@ public interface Meeting {
     Calendar getDate();
 
     /**
-     * Sets the date of the meeting.
-     *
-     * @param date  the date of the meeting.
-     */
-    void setDate(Calendar date);
-
-    /**
      * Return the details of people that attended the meeting.
      *
      * The list contains a minimum of one contact (if there were
