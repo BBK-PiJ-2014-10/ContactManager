@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -113,7 +114,13 @@ public class ContactManagerTest {
 
     @Test
     public void testAddMeetingNotes() {
-
+        Calendar pastDate = Calendar.getInstance();
+        pastDate.add(Calendar.DAY_OF_YEAR, -1);
+        contactManager.addNewPastMeeting(testContacts, pastDate, "");
+        List<PastMeeting> pastMeetings = contactManager.getPastMeetingList(this.testContact);
+        PastMeeting pastMeeting = pastMeetings.get(pastMeetings.size() - 1);
+        contactManager.addMeetingNotes(pastMeeting.getId(), this.testNotes);
+        assertEquals(this.testNotes, pastMeeting.getNotes());
     }
 
     @Test
