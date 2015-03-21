@@ -4,7 +4,7 @@ import java.util.*;
 public class ContactManagerImpl implements ContactManager {
 
     private HashMap<Integer, MeetingImpl> meetings = new HashMap();
-    private Set<Contact> contacts;
+    private HashMap<Integer, Contact> contacts = new HashMap();
 
     /**
      * Check if date is in the future.
@@ -267,7 +267,12 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public void addNewContact(String name, String notes) {
-
+        if ((contacts == null) || (notes == null)) {
+            throw new NullPointerException("Null argument provided.");
+        } else {
+            Contact newContact = new ContactImpl(name, notes);
+            this.contacts.put(newContact.getId(), newContact);
+        }
     }
 
     /**
@@ -279,7 +284,16 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public Set<Contact> getContacts(int... ids) {
-        return null;
+        Set<Contact> contacts = new HashSet<Contact>();
+        for (int i = 0; i < ids.length; i++) {
+            Contact contact = this.contacts.get(ids[i]);
+            if (contact == null) {
+                throw new IllegalArgumentException("Some IDs do not correspond to a real contact.");
+            } else {
+                contacts.add(contact);
+            }
+        }
+        return contacts;
     }
 
     /**
@@ -291,7 +305,16 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public Set<Contact> getContacts(String name) {
-        return null;
+        Set<Contact> contacts = new HashSet<Contact>();
+
+        for(Map.Entry<Integer, Contact> contactEntry: this.contacts.entrySet()){
+            Contact contact = contactEntry.getValue();
+
+            if (contact.getName().contains(name)) {
+                contacts.add(contact);
+            }
+        }
+        return contacts;
     }
 
     /**
