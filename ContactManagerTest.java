@@ -125,16 +125,70 @@ public class ContactManagerTest {
 
     @Test
     public void testAddNewContact() {
-
+        String testingName = "testing name";
+        String testingNotes = "testing notes";
+        contactManager.addNewContact(testingName, testingNotes);
+        Set<Contact> contacts = contactManager.getContacts(testingName);
+        Contact contactWithName = null;
+        for (Contact contact : contacts) {
+            if (contact.getName().compareTo(testingName) == 0) {
+                contactWithName = contact;
+                break;
+            }
+        }
+        assertNotEquals(null, contactWithName);
+        assertEquals(testingNotes, contactWithName.getNotes());
     }
 
     @Test
-    public void testGetContacts() {
+    public void testGetContactsWithID() {
+        String testingName = "testing name2";
+        contactManager.addNewContact(testingName, "");
+        Set<Contact> contactsWithName = contactManager.getContacts(testingName);
+        Contact contactWithName = null;
+        for (Contact contact : contactsWithName) {
+            if (contact.getName().compareTo(testingName) == 0) {
+                contactWithName = contact;
+                break;
+            }
+        }
+        assertNotEquals(null, contactWithName);
 
+        Set<Contact> contactsWithId = contactManager.getContacts(contactWithName.getId());
+        Contact contactWithId = null;
+        for (Contact contact : contactsWithId) {
+            if (contact.getId() == contactWithName.getId()) {
+                contactWithId = contact;
+                break;
+            }
+        }
+        assertNotEquals(null, contactsWithId);
+        assertEquals(contactWithName, contactWithId);
     }
 
     @Test
-    public void testGetContacts1() {
+    public void testGetContactsWithName() {
+        String testingName = "testing name3";
+        contactManager.addNewContact(testingName, "");
+        Set<Contact> contactsWithName = contactManager.getContacts(testingName);
+        Contact contactWithName = null;
+        for (Contact contact : contactsWithName) {
+            if (contact.getName().compareTo(testingName) == 0) {
+                contactWithName = contact;
+                break;
+            }
+        }
+        assertNotEquals(null, contactWithName);
 
+        Set<Contact> contactsWithId = contactManager.getContacts(contactWithName.getId());
+        Contact contactWithId = null;
+        for (Contact contact : contactsWithId) {
+            if (contact.getId() == contactWithName.getId()) {
+                contactWithId = contact;
+                break;
+            }
+        }
+        assertNotEquals(null, contactsWithId);
+        assertEquals(contactWithName, contactWithId);
     }
 }
