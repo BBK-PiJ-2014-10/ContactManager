@@ -3,7 +3,8 @@ import java.util.*;
 
 public class ContactManagerImpl implements ContactManager {
 
-    private HashMap<Integer, Meeting> meetings = new HashMap();
+    private HashMap<Integer, MeetingImpl> meetings = new HashMap();
+    private Set<Contact> contacts;
 
     /**
      * Check if date is in the future.
@@ -124,7 +125,7 @@ public class ContactManagerImpl implements ContactManager {
         // TODO: Check that contact exists
         List<Meeting> futureMeetings = new ArrayList<Meeting>();
 
-        for(Map.Entry<Integer, Meeting> meetingEntry: this.meetings.entrySet()){
+        for(Map.Entry<Integer, MeetingImpl> meetingEntry: this.meetings.entrySet()){
             Meeting meeting = meetingEntry.getValue();
 
             Set<Contact> meetingContacts = meeting.getContacts();
@@ -157,7 +158,7 @@ public class ContactManagerImpl implements ContactManager {
         // TODO: Add sorting
         List<Meeting> meetingsOnADate = new ArrayList<Meeting>();
 
-        for(Map.Entry<Integer, Meeting> meetingEntry: this.meetings.entrySet()){
+        for(Map.Entry<Integer, MeetingImpl> meetingEntry: this.meetings.entrySet()){
             Meeting meeting = meetingEntry.getValue();
 
             if (date.compareTo(meeting.getDate()) == 0) {
@@ -185,7 +186,7 @@ public class ContactManagerImpl implements ContactManager {
         // TODO: Check that contact exists
         List<PastMeeting> pastMeetings = new ArrayList<PastMeeting>();
 
-        for(Map.Entry<Integer, Meeting> meetingEntry: this.meetings.entrySet()){
+        for(Map.Entry<Integer, MeetingImpl> meetingEntry: this.meetings.entrySet()){
             Meeting meeting = meetingEntry.getValue();
 
             Set<Contact> meetingContacts = meeting.getContacts();
@@ -244,7 +245,17 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public void addMeetingNotes(int id, String text) {
+        MeetingImpl meeting = meetings.get(id);
 
+        if (meeting == null) {
+            throw new IllegalArgumentException("Meeting does not exist.");
+        } else if (text == null) {
+            throw new NullPointerException("No notes provided.");
+        } else if (dateIsInTheFuture(meeting.getDate())) {
+            throw new IllegalStateException("Cannot add notes to a future meeting.");
+        } else {
+            meeting.addNotes(text);
+        }
     }
 
     /**
