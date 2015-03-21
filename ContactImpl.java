@@ -1,4 +1,6 @@
-public class ContactImpl implements Contact {
+import java.io.Serializable;
+
+public class ContactImpl implements Contact, Serializable {
     public static int count = 0;
     private int id;
     private String name;

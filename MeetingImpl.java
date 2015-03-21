@@ -1,18 +1,20 @@
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
+import java.io.Serializable;
 
-public class MeetingImpl implements Meeting {
+
+public class MeetingImpl implements Meeting, Serializable {
     public static int count;
     private int id;
     private Calendar date;
-    private Set<Contact> contacts;
+    private Set<Contact> contacts = new HashSet();
     private String notes;
 
     public MeetingImpl() {
         count ++;
         this.id = count;
         this.date = null;
-        this.contacts = null;
         this.notes = null;
     }
 
@@ -59,16 +61,6 @@ public class MeetingImpl implements Meeting {
     @Override
     public Set<Contact> getContacts() {
         return this.contacts;
-    }
-
-    /**
-     * Adds the set of contacts to the meeting.
-     *
-     * @param contacts set of contacts to add to the meeting.
-     */
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
-
     }
 
     /**

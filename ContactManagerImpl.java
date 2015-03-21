@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 
@@ -40,8 +41,14 @@ public class ContactManagerImpl implements ContactManager {
         if (dateIsInTheFuture(date)) {
             FutureMeetingImpl futureMeeting = new FutureMeetingImpl();
             futureMeeting.setDate(date);
-            futureMeeting.setContacts(contacts);
 
+            for (Contact contact : contacts) {
+                if (this.contacts.get(contact.getId()) != null) {
+                    futureMeeting.addContact(contact);
+                } else {
+                    throw new IllegalArgumentException("Some of the contacts are unknown or non-existent.");
+                }
+            }
             int futureMeetingId = futureMeeting.getId();
             this.meetings.put(futureMeetingId, futureMeeting);
 
@@ -183,7 +190,10 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
 
-        // TODO: Check that contact exists
+        if (this.contacts.get(contact.getId()) == null) {
+            throw new IllegalArgumentException("Contact is unknown or non-existent.");
+        }
+
         List<PastMeeting> pastMeetings = new ArrayList<PastMeeting>();
 
         for(Map.Entry<Integer, MeetingImpl> meetingEntry: this.meetings.entrySet()){
@@ -220,7 +230,15 @@ public class ContactManagerImpl implements ContactManager {
         if (!dateIsInTheFuture(date)) {
             PastMeetingImpl pastMeeting = new PastMeetingImpl();
             pastMeeting.setDate(date);
-            pastMeeting.setContacts(contacts);
+
+            for (Contact contact : contacts) {
+                if (this.contacts.get(contact.getId()) != null) {
+                    pastMeeting.addContact(contact);
+                } else {
+                    throw new IllegalArgumentException("Some of the contacts are unknown or non-existent.");
+                }
+            }
+
             pastMeeting.addNotes(text);
             this.meetings.put(pastMeeting.getId(), pastMeeting);
 
@@ -325,6 +343,43 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public void flush() {
+        HashMap<String, HashMap> data = new HashMap();
+        data.put("meetings", this.meetings);
+        data.put("contacts", this.contacts);
 
+        try {
+            FileOutputStream fileStream = new FileOutputStream("contacts.txt");
+            ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+            objectStream.writeObject(data);
+            objectStream.close();
+            fileStream.close();
+        } catch(IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Load all data from the disk disk.
+     *
+     * This method must be executed when the program is
+     * loaded and when/if the user requests it.
+     */
+    public void loadData() {
+
+        try {
+            FileInputStream fileStream = new FileInputStream("contacts.txt");
+            ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+            HashMap<String, HashMap> data = (HashMap) objectStream.readObject();
+            objectStream.close();
+            fileStream.close();
+
+            this.contacts = data.get("contacts");
+            this.meetings = data.get("meetings");
+
+        } catch(IOException exception) {
+            exception.printStackTrace();
+        } catch(ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
     }
 }
