@@ -29,12 +29,6 @@ public class PastMeetingImplTest {
         testMeeting.addNotes(testNotes);
     }
 
-
-    @Test
-    public void testGetId() {
-        assertEquals(14, testMeeting.getId());
-    }
-
     @Test
     public void testGetDate() {
         assertEquals(testDate, testMeeting.getDate());

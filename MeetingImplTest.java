@@ -30,11 +30,6 @@ public class MeetingImplTest {
     }
 
     @Test
-    public void testGetId() {
-        assertEquals(2, testMeeting.getId());
-    }
-
-    @Test
     public void testGetDate() {
         assertEquals(testDate, testMeeting.getDate());
     }

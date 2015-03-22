@@ -25,11 +25,6 @@ public class FutureMeetingImplTest {
     }
 
     @Test
-    public void testGetId() {
-        assertEquals(8, testMeeting.getId());
-    }
-
-    @Test
     public void testGetDate() {
         assertEquals(testDate, testMeeting.getDate());
     }
